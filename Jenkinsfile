@@ -18,5 +18,19 @@ pipeline {
                 sh 'docker build -t grupo07/spring-petclinic:latest .'
             }
         }
+
+        stage('SonarQube Analysis'){
+            agent {
+                docker {
+                  image 'maven:amazoncorretto'
+                  args '-v /var/.m2:/root/.m2'
+                }
+            }
+            steps{
+                withSonarQubeEnv(installationName:'SonarPetclinic', credentialsId:'sonar-petclinic-key'){
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.8.0.2131:sonar'
+                }
+            }
+        }
     }
 }
