@@ -48,8 +48,9 @@ pipeline {
             }
         }
     }
+    agent any
     post {
-        agent any
+
               always {
                 sh 'find . -name "TEST-*.xml" -exec touch {} \\;'
                 junit (testResults: 'target/surefire-reports/*.xml', allowEmptyResults:true)
