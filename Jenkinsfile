@@ -25,6 +25,12 @@ pipeline {
             }
         }
 
+        post {
+                always {
+                    junit 'build/reports/**/*.xml'
+                }
+            }
+
         stage('SonarQube Analysis'){
             agent {
                 docker {
