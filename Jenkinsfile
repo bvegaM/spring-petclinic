@@ -40,15 +40,11 @@ pipeline {
     }
 
     stage('Docker Build') {
+    agent any
       steps {
         sh 'docker build -t grupo07/spring-petclinic:latest .'
       }
     }
   }
-  post {
-    always {
-      sh 'find . -name "TEST-*.xml" -exec touch {} \\;'
-      junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
-    }
-  }
+
 }
