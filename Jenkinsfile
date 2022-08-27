@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
     stages {
         stage('Maven Install') {
             agent {
@@ -21,7 +21,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'mvn clean test'
+                sh 'mvn test'
             }
         }
 
@@ -40,8 +40,16 @@ pipeline {
                 }
             }
         }
+
+        stage('Docker Build') {
+            agent any
+            steps {
+                sh 'docker build -t grupo07/spring-petclinic:latest .'
+            }
+        }
     }
     post {
+        agent any
               always {
                 sh 'find . -name "TEST-*.xml" -exec touch {} \\;'
                 junit (testResults: 'target/surefire-reports/*.xml', allowEmptyResults:true)
