@@ -48,7 +48,7 @@ pipeline {
   }
   post {
     always {
-        node('any'){
+        node('master'){
             sh 'find . -name "TEST-*.xml" -exec touch {} \\;'
             junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
         }
