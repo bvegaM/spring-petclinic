@@ -48,8 +48,10 @@ pipeline {
   }
   post {
     always {
-      sh 'find . -name "TEST-*.xml" -exec touch {} \\;'
-      junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
+        node('any'){
+            sh 'find . -name "TEST-*.xml" -exec touch {} \\;'
+            junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true)
+        }
     }
   }
 }
